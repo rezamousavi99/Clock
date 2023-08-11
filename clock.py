@@ -66,7 +66,11 @@ def main():
                 try:
                     c.timer(h,m,s)
                 except ValueError:
-                    playsound('Git/Clock/Alarm-Sound.mp3')
+                    start_time = time.time()
+                    end_time = start_time + 5
+                    while time.time() < end_time:
+                        playsound('Alarm-Sound.mp3')
+    
 
                 
             case '2':

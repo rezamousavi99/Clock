@@ -1,7 +1,7 @@
 import time
 from os import system, name
 import datetime
-from playsound import playsound
+from pygame import mixer
 
 class Clock:
     
@@ -66,10 +66,13 @@ def main():
                 try:
                     c.timer(h,m,s)
                 except ValueError:
-                    start_time = time.time()
-                    end_time = start_time + 5
-                    while time.time() < end_time:
-                        playsound('Alarm-Sound.mp3')
+                    mixer.init()
+                    mixer.music.load("sound.mp3")
+                    mixer.music.play()
+                    print('Tap enter to stop...', end='')
+                    if input() or True:
+                        mixer.music.stop()
+
     
 
                 

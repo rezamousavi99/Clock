@@ -37,7 +37,10 @@ class Clock:
 
             hours -= 1
             minutes = 59
-            self._dis_cls_slp(hours,minutes,seconds)
+            try:
+                self._dis_cls_slp(hours,minutes,seconds)
+            except ValueError:
+                return True
 
 
 
@@ -58,23 +61,24 @@ def main():
         user_input = commands()
         match user_input:
             case '1':
-                h = int(input('Hours: '))
-                m = int(input('Minutes: '))
-                s = int(input('Seconds: '))
+                while True:
+                    h = int(input('Hours: '))
+                    m = int(input('Minutes: '))
+                    s = int(input('Seconds: '))
 
-                c = Clock()  
-                try:
-                    c.timer(h,m,s)
-                except ValueError:
-                    mixer.init()
-                    mixer.music.load("sound.mp3")
-                    mixer.music.play()
-                    print('Tap enter to stop...', end='')
-                    if input() or True:
-                        mixer.music.stop()
-
-    
-
+                    c = Clock()  
+                    try:
+                        if c.timer(h,m,s):
+                            mixer.init()
+                            mixer.music.load("Git/Clock/sound.mp3")
+                            mixer.music.play()
+                            print('Tap enter to stop...', end='')
+                            if input() or True:
+                                mixer.music.stop()
+                                break
+                    except ValueError:
+                        print('ValueError: enter in this scale:\n0 <= hour < 24\n0 <= minute < 60\n0 <= second < 60')
+                    
                 
             case '2':
                 print('this feature will be add soon')

@@ -42,14 +42,6 @@ class Clock:
             except ValueError:
                 return True
 
-
-
-# c = Clock()
-# c.timer(2,2,20)
-
-
-
-
 def commands():
     print('------------- Welcome to Clock Program -------------')
     print('1.Timer\n2.Alarm\n3.Stop Watch\n4.Exit')
@@ -70,7 +62,7 @@ def main():
                     try:
                         if c.timer(h,m,s):
                             mixer.init()
-                            mixer.music.load("Git/Clock/sound.mp3")
+                            mixer.music.load("sound.mp3")
                             mixer.music.play()
                             print('Tap enter to stop...', end='')
                             if input() or True:

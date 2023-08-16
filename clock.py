@@ -25,7 +25,7 @@ class Clock:
 
         self._clear_terminal()
         self._realtime_display(hours,minutes,seconds)
-        while hours >= 0:
+        while hours >= 0: 
             while minutes >= 0:
                 while seconds > 0:
                     seconds -= 1
@@ -41,6 +41,19 @@ class Clock:
                 self._dis_cls_slp(hours,minutes,seconds)
             except ValueError:
                 return True
+            
+    def alarm(self, hours, minutes):
+        while True:
+            now = datetime.datetime.now()
+            alarm_time = now.replace(hour=hours, minute=minutes, second=0)
+            remained_time = abs(alarm_time - now)
+            time.sleep(1)
+            self._clear_terminal()
+            print(f'Remainig Time --> {remained_time}')
+            print(type(remained_time))
+            if remained_time == '0:00:00':
+                print('alarm..')
+
 
 def commands():
     print('------------- Welcome to Clock Program -------------')
@@ -62,6 +75,7 @@ def main():
                     try:
                         if c.timer(h,m,s):
                             mixer.init()
+                            mixer.music.load(r"Git\Clock\sound.mp3")
                             mixer.music.load("sound.mp3")
                             mixer.music.play()
                             print('Tap enter to stop...', end='')
@@ -73,8 +87,12 @@ def main():
                     
                 
             case '2':
-                print('this feature will be add soon')
+                h, m = list(map(lambda x: int(x),input('Enter desire time (in 24h format --> HH:MM): ').split(':')))
+                c = Clock()
+                c.alarm(h, m)
                 print('-' * 52)
+
+
             case '3':
                 print('this feature will be add soon')
                 print('-' * 52)
@@ -82,6 +100,11 @@ def main():
                 print('exiting...')   
                 print('-' * 52)
                 break
+
+            case other:
+                print('Invalid...')
+                print('-' * 52)
+
 
 if __name__ == '__main__':
     main()

@@ -8,16 +8,19 @@ class Clock:
     def _realtime_display(self, hours=0, minutes=0, seconds=0, milliseconds=0):
         print(datetime.time(hours, minutes, seconds,milliseconds))
     
+
     def _clear_terminal(self):
         if name == 'nt':
             system('cls')
         else:
             system('clear')
 
+
     def _dis_cls_slp(self,hours,minutes,seconds):
         time.sleep(1)
         self._clear_terminal()
         self._realtime_display(hours,minutes,seconds)
+
 
     def timer(self, hours, minutes, seconds):
 
@@ -42,6 +45,7 @@ class Clock:
             except ValueError:
                 return True
             
+
     def alarm(self, hours, minutes):
         now = datetime.datetime.now()
         alarm_time = now.replace(hour=hours, minute=minutes, second=0)
@@ -55,9 +59,8 @@ class Clock:
         self._clear_terminal()
         return True
     
-    def stop_watch(self, elps_time):
 
-        
+    def stop_watch(self, elps_time):
         minutes = int(elps_time // 60)
         seconds = int(elps_time % 60)
         milliseconds = int((elps_time % 1) * 1000)
@@ -80,8 +83,6 @@ def play_sound():
     print('Tap enter to stop...', end='')
     if input() or True:
         mixer.music.stop()
-
-
 
 
 def main():
@@ -110,7 +111,6 @@ def main():
                 c = Clock()
                 if c.alarm(h, m):
                     play_sound()
-                    break
                 print('-' * 52)
 
 

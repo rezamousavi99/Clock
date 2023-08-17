@@ -43,22 +43,35 @@ class Clock:
                 return True
             
     def alarm(self, hours, minutes):
-        while True:
-            now = datetime.datetime.now()
-            alarm_time = now.replace(hour=hours, minute=minutes, second=0)
-            remained_time = abs(alarm_time - now)
-            time.sleep(1)
+        now = datetime.datetime.now()
+        alarm_time = now.replace(hour=hours, minute=minutes, second=0)
+        remained_time = abs(alarm_time - now)
+
+        while remained_time.total_seconds() > 0:
             self._clear_terminal()
             print(f'Remainig Time --> {remained_time}')
-            print(type(remained_time))
-            if remained_time == '0:00:00':
-                print('alarm..')
+            remained_time -= datetime.timedelta(seconds=1)
+            time.sleep(1)
+        self._clear_terminal()
+        return True
 
 
 def commands():
     print('------------- Welcome to Clock Program -------------')
     print('1.Timer\n2.Alarm\n3.Stop Watch\n4.Exit')
     return input('select an option: ')
+
+
+def play_sound():
+    mixer.init()
+    mixer.music.load("sound.mp3")
+    mixer.music.play()
+    print('Tap enter to stop...', end='')
+    if input() or True:
+        mixer.music.stop()
+
+
+
 
 def main():
 
@@ -74,14 +87,9 @@ def main():
                     c = Clock()  
                     try:
                         if c.timer(h,m,s):
-                            mixer.init()
-                            mixer.music.load(r"Git\Clock\sound.mp3")
-                            mixer.music.load("sound.mp3")
-                            mixer.music.play()
-                            print('Tap enter to stop...', end='')
-                            if input() or True:
-                                mixer.music.stop()
-                                break
+                            play_sound()
+                            break
+
                     except ValueError:
                         print('ValueError: enter in this scale:\n0 <= hour < 24\n0 <= minute < 60\n0 <= second < 60')
                     
@@ -89,7 +97,9 @@ def main():
             case '2':
                 h, m = list(map(lambda x: int(x),input('Enter desire time (in 24h format --> HH:MM): ').split(':')))
                 c = Clock()
-                c.alarm(h, m)
+                if c.alarm(h, m):
+                    play_sound()
+                    break
                 print('-' * 52)
 
 

@@ -5,8 +5,8 @@ from pygame import mixer
 
 class Clock:
     
-    def _realtime_display(self, hours, minutes, seconds):
-        print(datetime.time(hours, minutes, seconds))
+    def _realtime_display(self, hours=0, minutes=0, seconds=0, milliseconds=0):
+        print(datetime.time(hours, minutes, seconds,milliseconds))
     
     def _clear_terminal(self):
         if name == 'nt':
@@ -54,6 +54,17 @@ class Clock:
             time.sleep(1)
         self._clear_terminal()
         return True
+    
+    def stop_watch(self, elps_time):
+
+        
+        minutes = int(elps_time // 60)
+        seconds = int(elps_time % 60)
+        milliseconds = int((elps_time % 1) * 1000)
+        
+        self._realtime_display(minutes=minutes,seconds=seconds,milliseconds=milliseconds)
+
+        print(f"\nElapsed Time: {minutes} minutes, {seconds} seconds, {milliseconds} milliseconds")
 
 
 def commands():
@@ -104,7 +115,12 @@ def main():
 
 
             case '3':
-                print('this feature will be add soon')
+                start_time = time.time()
+                input("Press Enter to stop the stopwatch...")
+                end_time = time.time()
+                elapsed_time = end_time - start_time
+                c = Clock()
+                c.stop_watch(elapsed_time)
                 print('-' * 52)
             case '4':
                 print('exiting...')   
